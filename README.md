@@ -6,7 +6,7 @@ Subprojects will explore specific dependencies and implementations as simple as 
 
 ## Monitoring
   + Logging
-    + [Pino-sample]([label](logging/pino-sample/README.md))
+    + [Pino-sample](logging/pino-sample/README.md)
 
 ### External references
   +  https://github.com/nodeshift/nodejs-reference-architecture
