@@ -16,7 +16,7 @@ try {
 //#endregion
 
 //#region Using nodeJS http module
-http.createServer(function (req, res) {
+const serverHttp = http.createServer(function (req, res) {
     loggerHttp(req, res); // that will log a request complete info and it's necessary to req.log.* works
     req.log.info('Some info');
     req.log.error('An error log');
@@ -52,7 +52,27 @@ app.get('/status500', function (req, res) {
     res.status(500).end(); //will log INFO request errored
 })
 
-app.listen(3001, function () {
+const serverExpress = app.listen(3001, function () {
     console.log("Express server started at 3001 port");
 })
 //#endregion
+
+
+process.on('uncaughtException', (err) => {
+    // log the exception
+    logger.fatal(err, 'uncaught exception detected');
+
+    // shutdown the servers gracefully
+    serverExpress.close(() => {
+        serverHttp.close(() => {
+            process.exit(1); // then exit
+        });
+    });
+
+    // If a graceful shutdown is not achieved after 1 second,
+    // shut down the process completely
+    setTimeout(() => {
+        process.abort(); // exit immediately and generate a core dump file
+    }, 1000).unref()
+    process.exit(1);
+});
