@@ -4,6 +4,9 @@ metadata:
   name: pino-sample
   annotations:
     github.com/project-slug: diegotroitino/nodejs-reference-architecture
+  tags:
+    - nodejs
+    - sample
 spec:
   type: logging-sample
   lifecycle: experimental
